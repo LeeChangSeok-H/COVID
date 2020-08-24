@@ -18,14 +18,12 @@ class RegionViewController: UIViewController {
     
     @IBOutlet weak var regionFirstView: UIView!
     @IBOutlet weak var regionSecondView: UIView!
+    @IBOutlet weak var regionDateTextField: UITextField!
+    @IBOutlet weak var stackview: UIStackView!
     
     var regionViewModel = RegionViewModel()
     let disposeBag = DisposeBag()
-    
-    let KEY = "275SOeWhh3LwvRCgwP41JMJ5jr2X%2FPfr%2BwYAl%2F3KKOjzd7QtFHIaA6PpmiHW793B1ZLz%2B9z5ZFmV4Q%2BIZIAbYg%3D%3D"
-    let URL = "http://openapi.data.go.kr/openapi/service/rest/Covid19/getCovid19SidoInfStateJson"
-  
-    var regionModelArray : [RegionModel]? = []
+
     var pieChartData_deathCnt: [PieChartDataEntry] = []
     var pieChartData_ioslClearCnt: [PieChartDataEntry] = []
     
@@ -44,9 +42,15 @@ class RegionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        stackview.isHidden = true
         initFirstPieGraph()
         initSecondPieGraph()
-        requestAPI()
+        bindViewModel()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.navigationBar.topItem?.title = "지역별 현황"
+        regionDateTextField.text = SharedPreference.load(key: SharedPreferenceKey.SAVE_SELECTED_DATE)
     }
     
     func initFirstPieGraph(){
@@ -63,8 +67,20 @@ class RegionViewController: UIViewController {
         secondPieChartView.heightToWidth(of: regionSecondView)
     }
     
-    func setFirstPieGraphData(){
-        for data in regionModelArray!{
+    func bindViewModel(){
+        regionDateTextField.rx.text.orEmpty
+            .bind(to: regionViewModel.selectedDate_variable)
+            .disposed(by: disposeBag)
+        
+        regionViewModel.regionModelArray_observable
+        .subscribe(onNext: { regionModelArray in
+            self.setFirstPieGraphData(array: regionModelArray)
+            self.setSecondPieGraphData(array: regionModelArray)
+        }).disposed(by: disposeBag)
+    }
+    
+    func setFirstPieGraphData(array : [RegionModel]){
+        for data in array{
             let regionName = data.regionName
             let deathCNT = Double(data.deathCNT) ?? 0
 
@@ -85,8 +101,8 @@ class RegionViewController: UIViewController {
         firstPieChartView.data = data
     }
     
-    func setSecondPieGraphData(){
-        for data in regionModelArray!{
+    func setSecondPieGraphData(array : [RegionModel]){
+        for data in array{
             let regionName = data.regionName
             let isolClearCNT = Double(data.isolClearCNT) ?? 0
 
@@ -105,53 +121,4 @@ class RegionViewController: UIViewController {
         let data = PieChartData(dataSet: set_ioslClearCnt)
         secondPieChartView.data = data
     }
-    
-    func requestAPI(){
-        let params = ["pageNo": "1","numOfRows":"10" ,"startCreateDt": "20200810" ,"endCreateDt": "20200810"]
-        let url = self.getURL(url: self.URL, params: params)
-        
-           
-        AF.request(url, method: .get, encoding: URLEncoding.default).responseString { (response) in
-            switch response.result{
-            case .success:
-                self.regionModelArray?.removeAll()
-                let responseString = NSString(data: response.data!, encoding: String.Encoding.utf8.rawValue )
-                let xml = try! XML.parse(String(responseString!))
-                for element in xml.response.body.items.item {
-                    let regionName = element["gubun"].text ?? ""
-                    let deathCNT = element["deathCnt"].text ?? ""
-                    let incDec = element["incDec"].text ?? ""
-                    let isolClearCNT = element["isolClearCnt"].text ?? ""
-                    let qurRate = element["qurRate"].text ?? ""
-                    let stdDay = element["stdDay"].text ?? ""
-                    let creatDT = element["createDt"].text ?? ""
-                    let updateDT = element["updateDt"].text ?? ""
-                  
-                    if regionName != "합계"{
-                        let regionModel = RegionModel(regionName : regionName, deathCNT : deathCNT, incDec : incDec, isolClearCNT : isolClearCNT, qurRate : qurRate, stdDay : stdDay, creatDT : creatDT, updateDT : updateDT )
-                        
-                        self.regionModelArray?.append(regionModel)
-                    }
-                    
-
-                }
-                self.setFirstPieGraphData()
-                self.setSecondPieGraphData()
-            case .failure:
-                print("failure")
-            }
-            
-        }
-    
-    }
-    
-    func getURL(url:String, params:[String: Any]) -> URL {
-        let urlParams = params.flatMap({ (key, value) -> String in
-            return "\(key)=\(value)"
-        }).joined(separator: "&")
-        let withURL = url + "?\(urlParams)"
-        let encoded = withURL.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)! + "&serviceKey=" + KEY
-        return Foundation.URL(string:encoded)!
-    }
-
 }

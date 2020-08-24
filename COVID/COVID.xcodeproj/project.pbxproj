@@ -23,6 +23,7 @@
 		283B360424EED96B00E3CB4B /* DailyStateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 283B360324EED96B00E3CB4B /* DailyStateViewController.swift */; };
 		283B360924EF63F300E3CB4B /* BasicInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 283B360824EF63F300E3CB4B /* BasicInfo.swift */; };
 		283B360B24EF63FD00E3CB4B /* BasicUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 283B360A24EF63FD00E3CB4B /* BasicUtils.swift */; };
+		283B360D24F29EBD00E3CB4B /* DateTimeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 283B360C24F29EBD00E3CB4B /* DateTimeViewController.swift */; };
 		B00632F551C5047A5B8126FC /* Pods_COVID.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4424AA1155D1BA9B5B5B3090 /* Pods_COVID.framework */; };
 /* End PBXBuildFile section */
 
@@ -66,6 +67,7 @@
 		283B360324EED96B00E3CB4B /* DailyStateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyStateViewController.swift; sourceTree = "<group>"; };
 		283B360824EF63F300E3CB4B /* BasicInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicInfo.swift; sourceTree = "<group>"; };
 		283B360A24EF63FD00E3CB4B /* BasicUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicUtils.swift; sourceTree = "<group>"; };
+		283B360C24F29EBD00E3CB4B /* DateTimeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTimeViewController.swift; sourceTree = "<group>"; };
 		4424AA1155D1BA9B5B5B3090 /* Pods_COVID.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_COVID.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA4A45B25D8A555F6642C434 /* Pods-COVID.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-COVID.release.xcconfig"; path = "Target Support Files/Pods-COVID/Pods-COVID.release.xcconfig"; sourceTree = "<group>"; };
 		EA5B6BEBC93F9FAADDE6C4EE /* Pods-COVID.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-COVID.debug.xcconfig"; path = "Target Support Files/Pods-COVID/Pods-COVID.debug.xcconfig"; sourceTree = "<group>"; };
@@ -160,6 +162,7 @@
 			children = (
 				283B35F124EEA98F00E3CB4B /* RegionViewController.swift */,
 				283B360324EED96B00E3CB4B /* DailyStateViewController.swift */,
+				283B360C24F29EBD00E3CB4B /* DateTimeViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -390,6 +393,7 @@
 				283B35BA24EE666300E3CB4B /* AppDelegate.swift in Sources */,
 				283B35F224EEA98F00E3CB4B /* RegionViewController.swift in Sources */,
 				283B35BC24EE666300E3CB4B /* SceneDelegate.swift in Sources */,
+				283B360D24F29EBD00E3CB4B /* DateTimeViewController.swift in Sources */,
 				283B360424EED96B00E3CB4B /* DailyStateViewController.swift in Sources */,
 				283B35C424EE666300E3CB4B /* COVID.xcdatamodeld in Sources */,
 				283B360B24EF63FD00E3CB4B /* BasicUtils.swift in Sources */,
